@@ -1,7 +1,8 @@
-package com.inovareti.rpontobackend.servicies;
+package com.inovareti.rpontobackend.services;
 
 import java.text.ParseException;
 import java.util.Arrays;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -9,9 +10,11 @@ import org.springframework.stereotype.Service;
 
 import com.inovareti.rpontobackend.domain.Empresa;
 import com.inovareti.rpontobackend.domain.Funcionario;
+import com.inovareti.rpontobackend.domain.Registro;
 import com.inovareti.rpontobackend.enums.Perfil;
 import com.inovareti.rpontobackend.repositories.EmpresaRepository;
 import com.inovareti.rpontobackend.repositories.FuncionarioRepository;
+import com.inovareti.rpontobackend.repositories.RegistroRepository;
 
 @Service
 public class DBService {
@@ -21,6 +24,9 @@ public class DBService {
 	
 	@Autowired
 	private FuncionarioRepository funcionarioRepository;
+	
+	@Autowired
+	private RegistroRepository registroRepository;
 	
 	@Autowired
 	private BCryptPasswordEncoder pe;
@@ -40,6 +46,11 @@ public class DBService {
 		
 		funcionarioRepository.saveAll(Arrays.asList(func1));
 		
+		registroRepository.deleteAll();
+		Date agora = new Date(System.currentTimeMillis());
+		Registro reg1 = new Registro(null, agora.getTime(), "Entrada", func1);
+		
+		registroRepository.saveAll(Arrays.asList(reg1));
 		
 	}
 }

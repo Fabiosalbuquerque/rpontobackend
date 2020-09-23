@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -24,6 +25,7 @@ public class Funcionario implements Serializable{
 	private String cpf;
 	@JsonIgnore
 	private String senha;
+	@DBRef
 	private Empresa empresa;
 	
 	private Set<Integer> perfis = new HashSet<>();

@@ -1,4 +1,4 @@
-package com.inovareti.rpontobackend.servicies;
+package com.inovareti.rpontobackend.services;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 

@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import com.inovareti.rpontobackend.servicies.DBService;
+import com.inovareti.rpontobackend.services.DBService;
 
 @Configuration
 @Profile("dev")
