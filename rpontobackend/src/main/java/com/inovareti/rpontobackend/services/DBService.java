@@ -2,7 +2,10 @@ package com.inovareti.rpontobackend.services;
 
 import java.text.ParseException;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -33,7 +36,13 @@ public class DBService {
 	
 	public void instantiateTestDatabase() throws ParseException {
 		System.out.println("iniciando banco de  dados");
-		
+		Calendar aux = Calendar.getInstance(new Locale("pt","BR"));
+		TimeZone tz = TimeZone.getTimeZone("America/Sao_Paulo");
+		TimeZone.setDefault(tz);
+		aux.setTimeZone(tz);
+		//System.out.println("TimeZone atual é : "+aux.getTimeZone());
+		//System.out.println("Date/Time atual é : "+aux.getTime());
+		//System.out.println("milisegundos atual é : "+aux.getTimeInMillis());
 		empresaRepository.deleteAll();
 		Empresa empresa1= new Empresa(null,"Empresa Fabio","82827332");
 		empresaRepository.saveAll(Arrays.asList(empresa1));
@@ -46,7 +55,7 @@ public class DBService {
 		
 		funcionarioRepository.saveAll(Arrays.asList(func1));
 		
-		registroRepository.deleteAll();
+		//registroRepository.deleteAll();
 		Date agora = new Date(System.currentTimeMillis());
 		Registro reg1 = new Registro(null, agora.getTime(), "Entrada", func1);
 		

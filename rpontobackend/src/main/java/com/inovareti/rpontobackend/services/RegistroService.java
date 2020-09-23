@@ -6,8 +6,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.inovareti.rpontobackend.domain.Funcionario;
 import com.inovareti.rpontobackend.domain.Registro;
+import com.inovareti.rpontobackend.dto.RegistroDTO;
+import com.inovareti.rpontobackend.dto.RegistroNewDTO;
 import com.inovareti.rpontobackend.enums.Perfil;
+import com.inovareti.rpontobackend.repositories.FuncionarioRepository;
 import com.inovareti.rpontobackend.repositories.RegistroRepository;
 import com.inovareti.rpontobackend.security.UserSS;
 import com.inovareti.rpontobackend.services.exceptions.AuthorizationException;
@@ -20,6 +24,9 @@ public class RegistroService {
 	
 	@Autowired
 	private RegistroRepository registroRepo;
+	
+	@Autowired
+	private FuncionarioRepository funcionarioRepo;
 	
 	public Registro find(String id) {
 		
@@ -50,6 +57,39 @@ public class RegistroService {
 	public List<Registro> findAll() {
 		
 		return registroRepo.findAll();
+	}
+	
+	public Registro insert(Registro obj) {
+		obj.setId(null);
+		obj = registroRepo.save(obj);
+		return obj;
+	}
+	
+	public Registro fromDTO(RegistroDTO obj) {
+		return new Registro(obj.getId(),obj.getInstante(),obj.getTipoRegistro(),null);
+	}
+	
+	public Registro fromDTO(RegistroNewDTO obj) {
+		Registro novoReg= new Registro();
+		novoReg.setId(null);
+		novoReg.setInstante(obj.getInstante());
+		novoReg.setDateRegistroFromInstante();
+		
+		novoReg.setTipoRegistro(obj.getTipoRegistro());
+		if(novoReg.getTipoRegistro()==null || novoReg.getTipoRegistro().equals("")) {
+			throw new AuthorizationException("Tipo de Registro Inválido");
+		}
+		
+		Funcionario func =  funcionarioRepo.findByEmail(obj.getEmail());
+		if(func!=null) {
+			novoReg.setFuncionario(func);
+			System.out.println(novoReg.toString());
+			return novoReg;
+		}else {
+			throw new ObjectNotFoundException("Funcionário não encontrado! Email: " + obj.getEmail() + ", Tipo: " + Funcionario.class.getName());
+		}
+		
+		
 	}
 	
 }

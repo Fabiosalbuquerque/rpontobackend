@@ -1,7 +1,10 @@
 package com.inovareti.rpontobackend.domain;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -21,6 +24,10 @@ public class Registro implements Serializable{
 	private String tipoRegistro;
 	@DBRef
 	private Funcionario funcionario;
+	
+	public Registro() {
+		
+	}
 	
 	public Registro(String id, Long instante, String tipoRegistro, Funcionario funcionario) {
 		super();
@@ -53,6 +60,20 @@ public class Registro implements Serializable{
 
 	public void setDateRegistro(Date dateRegistro) {
 		this.dateRegistro = dateRegistro;
+	}
+	
+	public void setDateRegistroFromInstante() {
+		Calendar aux = Calendar.getInstance(new Locale("pt","BR"));
+		TimeZone tz = TimeZone.getTimeZone("America/Sao_Paulo");
+		TimeZone.setDefault(tz);
+		aux.setTimeZone(tz);
+		aux.setTimeInMillis(this.instante);
+		//System.out.println("TimeZone atual é : "+aux.getTimeZone());
+		//System.out.println("Date/Time atual é : "+aux.getTime());
+		//System.out.println("milisegundos atual é : "+aux.getTimeInMillis());
+		
+		aux.add(Calendar.HOUR, -3);
+		this.dateRegistro = aux.getTime();
 	}
 
 	public String getTipoRegistro() {

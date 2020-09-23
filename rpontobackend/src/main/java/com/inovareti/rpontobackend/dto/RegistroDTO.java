@@ -3,6 +3,8 @@ package com.inovareti.rpontobackend.dto;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.validation.constraints.NotEmpty;
+
 import com.inovareti.rpontobackend.domain.Registro;
 
 public class RegistroDTO implements Serializable{
@@ -11,10 +13,13 @@ public class RegistroDTO implements Serializable{
 	private String id;
 	private Date dateRegistro;
 	private Long instante;
+	@NotEmpty
 	private String tipoRegistro;
+	@NotEmpty
 	private String funcionarioId;
 	private String funcionarioNome;
 	private String EmpresaNome;
+	@NotEmpty
 	private String EmpresaId;
 	
 	public RegistroDTO(Registro obj) {
