@@ -1,6 +1,7 @@
 package com.inovareti.rpontobackend.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -14,7 +15,8 @@ public class Registro implements Serializable{
 	
 	@Id
 	private String id;
-	@JsonFormat(pattern="dd/MM/yyyy HH:mm")
+	@JsonFormat(pattern="dd/MM/yyyy HH:mm:ss")
+	private Date dateRegistro;
 	private Long instante;
 	private String tipoRegistro;
 	@DBRef
@@ -24,6 +26,7 @@ public class Registro implements Serializable{
 		super();
 		this.id = id;
 		this.instante = instante;
+		this.dateRegistro = new Date(instante);
 		this.tipoRegistro = tipoRegistro;
 		this.funcionario = funcionario;
 	}
@@ -42,6 +45,14 @@ public class Registro implements Serializable{
 
 	public void setInstante(Long instante) {
 		this.instante = instante;
+	}
+
+	public Date getDateRegistro() {
+		return dateRegistro;
+	}
+
+	public void setDateRegistro(Date dateRegistro) {
+		this.dateRegistro = dateRegistro;
 	}
 
 	public String getTipoRegistro() {

@@ -1,13 +1,18 @@
 package com.inovareti.rpontobackend.resources;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.inovareti.rpontobackend.domain.Registro;
+import com.inovareti.rpontobackend.dto.RegistroDTO;
 import com.inovareti.rpontobackend.services.RegistroService;
 
 @RestController
@@ -22,6 +27,16 @@ public class RegistroResource {
 		
 		Registro obj = regService.find(id);
 		return ResponseEntity.ok().body(obj);
+		
+	}
+	
+	@PreAuthorize("hasAnyRole('ADMIN')")
+	@GetMapping()
+	public ResponseEntity<List<RegistroDTO>> findAll() {
+		
+		List<Registro> list = regService.findAll();
+		List<RegistroDTO> listdto = list.stream().map(obj -> new RegistroDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listdto);
 		
 	}
 }
