@@ -83,7 +83,7 @@ public class RegistroService {
 		Funcionario func =  funcionarioRepo.findByEmail(obj.getEmail());
 		if(func!=null) {
 			novoReg.setFuncionario(func);
-			System.out.println(novoReg.toString());
+			//System.out.println(novoReg.toString());
 			return novoReg;
 		}else {
 			throw new ObjectNotFoundException("Funcionário não encontrado! Email: " + obj.getEmail() + ", Tipo: " + Funcionario.class.getName());

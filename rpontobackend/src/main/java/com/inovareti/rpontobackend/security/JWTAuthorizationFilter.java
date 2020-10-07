@@ -21,9 +21,13 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter{
 
 	private JWTUtil jwtUtil;
+	
 	private UserDetailsService userDetailService;
 	
-	public JWTAuthorizationFilter(AuthenticationManager authenticationManager,JWTUtil jwtUtil, UserDetailsService userDetailService) {
+	public JWTAuthorizationFilter(
+			AuthenticationManager authenticationManager,
+			JWTUtil jwtUtil, 
+			UserDetailsService userDetailService) {
 		super(authenticationManager);
 		this.jwtUtil = jwtUtil;
 		this.userDetailService = userDetailService;
@@ -31,7 +35,10 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter{
 	}
 	
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+	protected void doFilterInternal(
+			HttpServletRequest request, 
+			HttpServletResponse response, 
+			FilterChain chain)
 			throws IOException, ServletException {
 		// TODO Auto-generated method stub
 		String header = request.getHeader("Authorization");

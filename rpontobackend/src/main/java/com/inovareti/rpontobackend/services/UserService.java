@@ -12,6 +12,7 @@ public class UserService {
 		try {
 			return (UserSS) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		}catch(Exception e) {
+			System.out.println("Erro para pegar o usuário autenticado");
 			return null;
 		}
 	}
