@@ -37,6 +37,22 @@ public class RegistroResource {
 		
 	}
 	
+	@GetMapping(value="/last/{email}")
+	public ResponseEntity<RegistroDTO> findLastRegisterByUser(@PathVariable String email ) {
+		
+		RegistroDTO obj = regService.buscaUltimoregistro(email);
+		return ResponseEntity.ok().body(obj);
+		
+	}
+	
+	@GetMapping(value="/last10/{email}")
+	public ResponseEntity<List<RegistroDTO>> findLast10RegisterByUser(@PathVariable String email ) {
+		
+		List<RegistroDTO> obj = regService.buscaUltimos10registros(email);
+		return ResponseEntity.ok().body(obj);
+		
+	}
+	
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@GetMapping()
 	public ResponseEntity<List<RegistroDTO>> findAll() {

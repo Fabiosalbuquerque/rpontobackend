@@ -18,6 +18,7 @@ public class RegistroDTO implements Serializable{
 	@NotEmpty
 	private String funcionarioId;
 	private String funcionarioNome;
+	private String funcionarioEmail;
 	private String EmpresaNome;
 	@NotEmpty
 	private String EmpresaId;
@@ -25,10 +26,11 @@ public class RegistroDTO implements Serializable{
 	public RegistroDTO(Registro obj) {
 		this.id = obj.getId();
 		this.dateRegistro=obj.getDateRegistro();
-		this.EmpresaId=obj.getFuncionario().getEmpresa().getId();
-		this.EmpresaNome=obj.getFuncionario().getEmpresa().getNome();
+		this.EmpresaId=obj.getEmpresa().getId();
+		this.EmpresaNome=obj.getEmpresa().getNome();
 		this.funcionarioId=obj.getFuncionario().getId();
 		this.funcionarioNome=obj.getFuncionario().getNome();
+		this.funcionarioEmail = obj.getFuncionario().getEmail();
 		this.instante=obj.getInstante();
 		this.tipoRegistro=obj.getTipoRegistro();
 		}
@@ -79,6 +81,14 @@ public class RegistroDTO implements Serializable{
 
 	public void setFuncionarioNome(String funcionarioNome) {
 		this.funcionarioNome = funcionarioNome;
+	}
+
+	public String getFuncionarioEmail() {
+		return funcionarioEmail;
+	}
+
+	public void setFuncionarioEmail(String funcionarioEmail) {
+		this.funcionarioEmail = funcionarioEmail;
 	}
 
 	public String getEmpresaNome() {

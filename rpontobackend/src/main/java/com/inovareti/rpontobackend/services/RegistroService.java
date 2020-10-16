@@ -1,7 +1,9 @@
 package com.inovareti.rpontobackend.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +13,6 @@ import com.inovareti.rpontobackend.domain.Registro;
 import com.inovareti.rpontobackend.dto.RegistroDTO;
 import com.inovareti.rpontobackend.dto.RegistroNewDTO;
 import com.inovareti.rpontobackend.enums.Perfil;
-import com.inovareti.rpontobackend.repositories.FuncionarioRepository;
 import com.inovareti.rpontobackend.repositories.RegistroRepository;
 import com.inovareti.rpontobackend.security.UserSS;
 import com.inovareti.rpontobackend.services.exceptions.AuthorizationException;
@@ -25,8 +26,9 @@ public class RegistroService {
 	@Autowired
 	private RegistroRepository registroRepo;
 	
+	
 	@Autowired
-	private FuncionarioRepository funcionarioRepo;
+	private FuncionarioService funcionarioService;
 	
 	public Registro find(String id) {
 		
@@ -69,24 +71,43 @@ public class RegistroService {
 		return new Registro(obj.getId(),obj.getInstante(),obj.getTipoRegistro(),null);
 	}
 	
-	public Registro fromDTO(RegistroNewDTO obj) {
-		Registro novoReg= new Registro();
-		novoReg.setId(null);
-		novoReg.setInstante(obj.getInstante());
-		novoReg.setDateRegistroFromInstante();
+	public RegistroDTO buscaUltimoregistro(String email) {
+		Funcionario func = funcionarioService.findByEmail(email);
 		
-		novoReg.setTipoRegistro(obj.getTipoRegistro());
-		if(novoReg.getTipoRegistro()==null || novoReg.getTipoRegistro().equals("")) {
-			throw new AuthorizationException("Tipo de Registro Inválido");
-		}
-		
-		Funcionario func =  funcionarioRepo.findByEmail(obj.getEmail());
 		if(func!=null) {
-			novoReg.setFuncionario(func);
-			//System.out.println(novoReg.toString());
+			
+			return new RegistroDTO(registroRepo.findFirstByFuncionarioEmailOrderByInstanteDesc(func.getEmail()));
+		}else {
+			return null;
+		}
+	}
+	
+	public List<RegistroDTO> buscaUltimos10registros(String email) {
+		Funcionario func = funcionarioService.findByEmail(email);
+		List<RegistroDTO> ultimos = new ArrayList<>();
+		List<Registro> ultimosregs =  new ArrayList<>();
+		if(func!=null) {
+			ultimosregs = registroRepo.findFirst5ByFuncionarioEmailOrderByInstanteDesc(func.getEmail());
+			ultimos = ultimosregs.stream().map(x -> new RegistroDTO(x)).collect(Collectors.toList());
+			return ultimos;
+		}else {
+			return null;
+		}
+	}
+	
+	public Registro fromDTO(RegistroNewDTO obj) {
+		
+		Funcionario func =  funcionarioService.findByEmail(obj.getFuncionarioEmail());
+		
+		if(func!=null) {
+			Registro novoReg= new Registro(null,obj.getInstante(),obj.getTipoRegistro(),func);
+			novoReg.setDateRegistroFromInstante();
+			if(novoReg.getTipoRegistro()==null || novoReg.getTipoRegistro().equals("")) {
+				throw new AuthorizationException("Tipo de Registro Inválido");
+			}
 			return novoReg;
 		}else {
-			throw new ObjectNotFoundException("Funcionário não encontrado! Email: " + obj.getEmail() + ", Tipo: " + Funcionario.class.getName());
+			throw new ObjectNotFoundException("Funcionário não encontrado! Email: " + obj.getFuncionarioEmail() + ", Tipo: " + Funcionario.class.getName());
 		}
 		
 		

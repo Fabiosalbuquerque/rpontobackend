@@ -7,10 +7,11 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.inovareti.rpontobackend.dto.EmpresaDTO;
+import com.inovareti.rpontobackend.dto.FuncionarioDTO;
 
 @Document(collection="registros")
 public class Registro implements Serializable{
@@ -22,9 +23,8 @@ public class Registro implements Serializable{
 	private Date dateRegistro;
 	private Long instante;
 	private String tipoRegistro;
-	@DBRef
-	private Funcionario funcionario;
-	
+	private FuncionarioDTO funcionario;
+	private EmpresaDTO empresa;
 	public Registro() {
 		
 	}
@@ -35,7 +35,18 @@ public class Registro implements Serializable{
 		this.instante = instante;
 		this.dateRegistro = new Date(instante);
 		this.tipoRegistro = tipoRegistro;
+		this.funcionario = new FuncionarioDTO(funcionario);
+		this.empresa = new EmpresaDTO(funcionario.getEmpresa());
+	}
+	
+	public Registro(String id, Long instante, String tipoRegistro, FuncionarioDTO funcionario,EmpresaDTO empresa) {
+		super();
+		this.id = id;
+		this.instante = instante;
+		this.dateRegistro = new Date(instante);
+		this.tipoRegistro = tipoRegistro;
 		this.funcionario = funcionario;
+		this.empresa = empresa;
 	}
 
 	public String getId() {
@@ -84,12 +95,31 @@ public class Registro implements Serializable{
 		this.tipoRegistro = tipoRegistro;
 	}
 
-	public Funcionario getFuncionario() {
+	public FuncionarioDTO getFuncionario() {
 		return funcionario;
 	}
 
-	public void setFuncionario(Funcionario funcionario) {
+
+	public void setFuncionario(FuncionarioDTO funcionario) {
 		this.funcionario = funcionario;
+	}
+	
+	public void setFuncionario(Funcionario func) {
+		if(null!=func) {
+		this.funcionario.setEmail(func.getEmail());
+		this.funcionario.setId(func.getId());
+		this.funcionario.setNome(func.getNome());
+		}
+	}
+
+	public EmpresaDTO getEmpresa() {
+		return empresa;
+	}
+
+	public void setEmpresa(Empresa empresa) {
+		this.empresa.setCnpj(empresa.getCnpj());
+		this.empresa.setId(empresa.getId());
+		this.empresa.setNome(empresa.getNome());
 	}
 
 	@Override

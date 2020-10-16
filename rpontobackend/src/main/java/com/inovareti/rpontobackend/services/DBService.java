@@ -12,10 +12,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.inovareti.rpontobackend.domain.Empresa;
+import com.inovareti.rpontobackend.domain.Endereco;
 import com.inovareti.rpontobackend.domain.Funcionario;
 import com.inovareti.rpontobackend.domain.Registro;
 import com.inovareti.rpontobackend.enums.Perfil;
 import com.inovareti.rpontobackend.repositories.EmpresaRepository;
+import com.inovareti.rpontobackend.repositories.EnderecoRepository;
 import com.inovareti.rpontobackend.repositories.FuncionarioRepository;
 import com.inovareti.rpontobackend.repositories.RegistroRepository;
 
@@ -32,6 +34,9 @@ public class DBService {
 	private RegistroRepository registroRepository;
 	
 	@Autowired
+	private EnderecoRepository enderecoRepository;
+	
+	@Autowired
 	private BCryptPasswordEncoder pe;
 	
 	public void instantiateTestDatabase() throws ParseException {
@@ -46,12 +51,14 @@ public class DBService {
 		empresaRepository.deleteAll();
 		Empresa empresa1= new Empresa(null,"Empresa Fabio","82827332");
 		empresaRepository.saveAll(Arrays.asList(empresa1));
-		
+		Endereco end1 = new Endereco(null, "Av Das americas", 3500, "apto605", "Barra da Tijuca", "227234-344");
+		enderecoRepository.saveAll(Arrays.asList(end1));
 		funcionarioRepository.deleteAll();
 		
-		Funcionario func1= new Funcionario(null,"Fabio Silva de Albuquerque","fabiosalbuquerque@gmail.com","05284255798",pe.encode("123"),null);
-		func1.setEmpresa(empresa1);
+		Funcionario func1= new Funcionario(null,"Fabio Silva de Albuquerque","fabiosalbuquerque@gmail.com","05284255798",pe.encode("123"),empresa1);
+		
 		func1.addPerfil(Perfil.ADMIN);
+		func1.setEndereco(end1);
 		
 		funcionarioRepository.saveAll(Arrays.asList(func1));
 		

@@ -27,6 +27,8 @@ public class Funcionario implements Serializable{
 	private String senha;
 	@DBRef
 	private Empresa empresa;
+	@DBRef
+	private Endereco endereco;
 	
 	private Set<Integer> perfis = new HashSet<>();
 	
@@ -101,6 +103,14 @@ public class Funcionario implements Serializable{
 	}
 	public void setPerfis(Set<Integer> perfis) {
 		this.perfis = perfis;
+	}
+
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
 	}
 
 	@Override

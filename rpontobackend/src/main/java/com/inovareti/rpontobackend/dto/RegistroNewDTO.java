@@ -13,8 +13,13 @@ public class RegistroNewDTO implements Serializable{
 	private Long instante;
 	@NotEmpty(message="Tipo de Registro Obrigatório")
 	private String tipoRegistro;
+	private String funcionarioId;
+	private String funcionarioNome;
 	@NotEmpty(message="email Obrigatório")
-	private String email;
+	private String funcionarioEmail;
+	private String empresaNome;
+	private String empresaId;
+	
 	
 	public RegistroNewDTO() {
 		
@@ -52,13 +57,47 @@ public class RegistroNewDTO implements Serializable{
 		this.tipoRegistro = tipoRegistro;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getFuncionarioId() {
+		return funcionarioId;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setFuncionarioId(String funcionarioId) {
+		this.funcionarioId = funcionarioId;
 	}
+
+	public String getFuncionarioNome() {
+		return funcionarioNome;
+	}
+
+	public void setFuncionarioNome(String funcionarioNome) {
+		this.funcionarioNome = funcionarioNome;
+	}
+
+	public String getFuncionarioEmail() {
+		return funcionarioEmail;
+	}
+
+	public void setFuncionarioEmail(String funcionarioEmail) {
+		this.funcionarioEmail = funcionarioEmail;
+	}
+
+	public String getEmpresaNome() {
+		return empresaNome;
+	}
+
+	public void setEmpresaNome(String empresaNome) {
+		this.empresaNome = empresaNome;
+	}
+
+	public String getEmpresaId() {
+		return empresaId;
+	}
+
+	public void setEmpresaId(String empresaId) {
+		this.empresaId = empresaId;
+	}
+
+	
 	
 	
 
