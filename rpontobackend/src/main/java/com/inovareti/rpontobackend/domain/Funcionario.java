@@ -29,6 +29,8 @@ public class Funcionario implements Serializable{
 	private Empresa empresa;
 	@DBRef
 	private Endereco endereco;
+	@JsonIgnore
+	private Boolean locked;
 	
 	private Set<Integer> perfis = new HashSet<>();
 	
@@ -44,6 +46,7 @@ public class Funcionario implements Serializable{
 		this.cpf = cpf;
 		this.senha = senha;
 		this.setEmpresa(empresa);
+		this.locked=false;
 	}
 
 	public String getId() {
@@ -111,6 +114,14 @@ public class Funcionario implements Serializable{
 
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
+	}
+
+	public Boolean getLocked() {
+		return locked;
+	}
+
+	public void setLocked(Boolean locked) {
+		this.locked = locked;
 	}
 
 	@Override

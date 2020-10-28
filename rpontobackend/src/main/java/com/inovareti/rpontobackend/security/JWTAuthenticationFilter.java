@@ -65,9 +65,16 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		@Override
 		public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 				AuthenticationException exception) throws IOException, ServletException {
-			response.setStatus(401);
-			response.setContentType("application/json");
-			response.getWriter().append(json());
+			System.out.println(exception.getMessage());
+			if(exception.getMessage().contains("locked")) {
+				response.setStatus(403);
+				response.setContentType("application/json");
+				response.getWriter().append(json403());
+			}else {
+				response.setStatus(401);
+				response.setContentType("application/json");
+				response.getWriter().append(json());
+			}
 			
 		}
 		private String json() {
@@ -76,6 +83,14 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 					+ "\"status\":401,"
 					+ "\"error\":\"Não autorizado\","
 					+ "\"message\":\"Email ou senha inválidos\","
+					+ "\"path\":\"/login\"}";
+		}
+		private String json403() {
+			long date=new Date().getTime();
+			return "{\"timestamp\":"+date+","
+					+ "\"status\":403,"
+					+ "\"error\":\"Não autorizado\","
+					+ "\"message\":\"Conta não autorizada ou bloqueada\","
 					+ "\"path\":\"/login\"}";
 		}
 	}

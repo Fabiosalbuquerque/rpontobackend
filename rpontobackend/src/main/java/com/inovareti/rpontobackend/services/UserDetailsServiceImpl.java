@@ -23,7 +23,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 		if(func == null) {
 			throw new UsernameNotFoundException(email);
 		}else {
-			return new UserSS(func.getId(),func.getEmail(),func.getSenha(),func.getPerfis());
+			return new UserSS(func.getId(),func.getEmail(),func.getSenha(),func.getLocked(),func.getPerfis());
 		}
 		
 	}

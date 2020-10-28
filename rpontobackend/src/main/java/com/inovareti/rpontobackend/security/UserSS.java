@@ -19,7 +19,7 @@ public class UserSS implements UserDetails{
 	private String email;
 	private String senha;
 	private Collection<? extends GrantedAuthority> authorities;
-	
+	private Boolean locked;
 	
 	public UserSS() {
 		
@@ -27,11 +27,12 @@ public class UserSS implements UserDetails{
 	
 	
 	
-	public UserSS(String id, String email, String senha, Set<Perfil> perfis) {
+	public UserSS(String id, String email, String senha,Boolean Locked, Set<Perfil> perfis) {
 		super();
 		this.id = id;
 		this.email = email;
 		this.senha = senha;
+		this.locked = Locked;
 		this.authorities = perfis.stream().map(x-> new SimpleGrantedAuthority(x.getDescricao())).collect(Collectors.toList());
 	}
 
@@ -70,7 +71,7 @@ public class UserSS implements UserDetails{
 	@Override
 	public boolean isAccountNonLocked() {
 		// TODO Auto-generated method stub
-		return true;
+		return this.locked;
 	}
 
 	@Override

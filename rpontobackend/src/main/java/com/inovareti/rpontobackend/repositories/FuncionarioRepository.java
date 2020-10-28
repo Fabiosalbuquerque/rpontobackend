@@ -9,4 +9,6 @@ import com.inovareti.rpontobackend.domain.Funcionario;
 public interface FuncionarioRepository extends MongoRepository<Funcionario,String>{
 
 	Funcionario findByEmail(String email);
+	
+	Funcionario findByCpf(String cpf);
 }

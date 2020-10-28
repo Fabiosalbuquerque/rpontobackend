@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.inovareti.rpontobackend.security.JWTUtil;
 import com.inovareti.rpontobackend.security.UserSS;
 import com.inovareti.rpontobackend.services.UserService;
+import com.inovareti.rpontobackend.services.exceptions.AuthorizationException;
 
 
 
@@ -26,6 +27,9 @@ public class AuthResource {
 	@PostMapping(value = "/refresh_token")
 	public ResponseEntity<Void> refreshToken(HttpServletResponse response) {
 		UserSS user = UserService.authenticated();
+		if(user==null) {
+			throw new AuthorizationException("Usuário Não autenticado");
+		}
 		String token = jwtUtil.generateToken(user.getUsername());
 		response.addHeader("Authorization", "Bearer " + token);
 		response.addHeader("access-control-expose-headers", "Authorization");
