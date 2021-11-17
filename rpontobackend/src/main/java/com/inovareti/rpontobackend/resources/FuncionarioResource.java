@@ -51,5 +51,13 @@ public class FuncionarioResource {
 		return ResponseEntity.created(uri).build();
 	}
 	
+	@PostMapping(value="/atualizaAprovador")
+	public ResponseEntity<Void> atualizaFuncionarioAprovador(@RequestParam(name="email") String email){
+		
+		Funcionario obj = funcService.atualizaAprovador(email);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+		return ResponseEntity.created(uri).build();
+	}
+	
 	
 }

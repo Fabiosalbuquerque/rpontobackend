@@ -4,7 +4,8 @@ package com.inovareti.rpontobackend.enums;
 
 public enum Perfil {
 	ADMIN(1,"ROLE_ADMIN"),
-	FUNCIONARIO(2,"ROLE_FUNCIONARIO");
+	FUNCIONARIO(2,"ROLE_FUNCIONARIO"),
+	APROVADOR(3,"ROLE_APROVADOR");
 	
 	private int cod;
 	private String descricao;

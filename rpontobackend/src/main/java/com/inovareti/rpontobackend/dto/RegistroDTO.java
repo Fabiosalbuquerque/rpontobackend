@@ -1,6 +1,7 @@
 package com.inovareti.rpontobackend.dto;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.validation.constraints.NotEmpty;
@@ -13,6 +14,10 @@ public class RegistroDTO implements Serializable{
 	private String id;
 	private Date dateRegistro;
 	private Long instante;
+	private Long instanteServidor;
+	private Integer diaRegistro;
+	private Integer mesRegistro;
+	private Integer anoRegistro;
 	@NotEmpty
 	private String tipoRegistro;
 	@NotEmpty
@@ -22,6 +27,9 @@ public class RegistroDTO implements Serializable{
 	private String EmpresaNome;
 	@NotEmpty
 	private String EmpresaId;
+	private String ajustado;
+	private Date dateRegistroAjustado;
+	private Long instanteAjustado;
 	
 	public RegistroDTO(Registro obj) {
 		this.id = obj.getId();
@@ -33,6 +41,13 @@ public class RegistroDTO implements Serializable{
 		this.funcionarioEmail = obj.getFuncionario().getEmail();
 		this.instante=obj.getInstante();
 		this.tipoRegistro=obj.getTipoRegistro();
+		this.diaRegistro=obj.getDiaRegistro();
+		this.mesRegistro=obj.getMesRegistro();
+		this.anoRegistro=obj.getAnoRegistro();
+		this.ajustado=obj.getAjustado();
+		this.dateRegistroAjustado=obj.getDateRegistroAjustado();
+		this.instanteAjustado = obj.getInstanteAjustado();
+		this.instanteServidor = Calendar.getInstance().getTimeInMillis();
 		}
 
 	public String getId() {
@@ -57,6 +72,38 @@ public class RegistroDTO implements Serializable{
 
 	public void setInstante(Long instante) {
 		this.instante = instante;
+	}
+
+	public Long getInstanteServidor() {
+		return instanteServidor;
+	}
+
+	public void setInstanteServidor(Long instanteServidor) {
+		this.instanteServidor = instanteServidor;
+	}
+
+	public Integer getDiaRegistro() {
+		return diaRegistro;
+	}
+
+	public void setDiaRegistro(Integer dia_registro) {
+		this.diaRegistro = dia_registro;
+	}
+
+	public Integer getMesRegistro() {
+		return mesRegistro;
+	}
+
+	public void setMesRegistro(Integer mes_registro) {
+		this.mesRegistro = mes_registro;
+	}
+
+	public Integer getAnoRegistro() {
+		return anoRegistro;
+	}
+
+	public void setAnoRegistro(Integer ano_registro) {
+		this.anoRegistro = ano_registro;
 	}
 
 	public String getTipoRegistro() {
@@ -105,6 +152,30 @@ public class RegistroDTO implements Serializable{
 
 	public void setEmpresaId(String empresaId) {
 		EmpresaId = empresaId;
+	}
+
+	public String getAjustado() {
+		return ajustado;
+	}
+
+	public void setAjustado(String ajustado) {
+		this.ajustado = ajustado;
+	}
+
+	public Date getDateRegistroAjustado() {
+		return dateRegistroAjustado;
+	}
+
+	public void setDateRegistroAjustado(Date dateRegistroAjustado) {
+		this.dateRegistroAjustado = dateRegistroAjustado;
+	}
+
+	public Long getInstanteAjustado() {
+		return instanteAjustado;
+	}
+
+	public void setInstanteAjustado(Long instanteAjustado) {
+		this.instanteAjustado = instanteAjustado;
 	}
 
 	@Override

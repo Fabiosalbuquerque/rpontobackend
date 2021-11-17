@@ -13,7 +13,13 @@ public interface RegistroRepository extends MongoRepository<Registro,String>{
 	
 	 Registro findFirstByFuncionarioEmailOrderByInstanteDesc(String email);
 	 
-	 List<Registro> findFirst5ByFuncionarioEmailOrderByInstanteDesc(String email);
+	 List<Registro> findFirst4ByFuncionarioEmailOrderByInstanteDesc(String email);
+	 
+	 List<Registro> findByDiaRegistroAndMesRegistroAndAnoRegistroOrderByInstanteDesc(Integer diaRegistro,Integer mesRegistro,Integer anoRegistro);
+	 
+	 List<Registro> findByMesRegistroAndAnoRegistroOrderByInstanteDesc(Integer mesRegistro,Integer anoRegistro);
+	 
+	 Registro findByDiaRegistroAndMesRegistroAndAnoRegistroAndTipoRegistroOrderByInstanteDesc(Integer diaRegistro,Integer mesRegistro,Integer anoRegistro,String tipoRegistro);
 	 
 	 
 }

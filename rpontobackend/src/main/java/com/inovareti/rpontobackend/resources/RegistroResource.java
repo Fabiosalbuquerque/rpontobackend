@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.inovareti.rpontobackend.domain.Registro;
+import com.inovareti.rpontobackend.dto.HoraServidorDTO;
 import com.inovareti.rpontobackend.dto.RegistroDTO;
 import com.inovareti.rpontobackend.dto.RegistroNewDTO;
 import com.inovareti.rpontobackend.services.RegistroService;
@@ -45,11 +47,35 @@ public class RegistroResource {
 		
 	}
 	
-	@GetMapping(value="/last10/{email}")
-	public ResponseEntity<List<RegistroDTO>> findLast10RegisterByUser(@PathVariable String email ) {
+	@GetMapping(value="/last4/{email}")
+	public ResponseEntity<List<RegistroDTO>> findLast4RegisterByUser(@PathVariable String email ) {
 		
-		List<RegistroDTO> obj = regService.buscaUltimos10registros(email);
+		List<RegistroDTO> obj = regService.buscaUltimos4registros(email);
 		return ResponseEntity.ok().body(obj);
+		
+	}
+	
+	@GetMapping(value="/data")
+	public ResponseEntity<List<RegistroDTO>> findRegByUserByDt(@RequestParam(name="dia") String dia,@RequestParam(name="mes") String mes,@RequestParam(name="ano") String ano,@RequestParam(name="email") String email ) {
+		
+		List<RegistroDTO> obj = regService.buscaRegistrosData(dia,mes,ano,email);
+		return ResponseEntity.ok().body(obj);
+		
+	}
+	
+	@GetMapping(value="/espelho")
+	public ResponseEntity<List<RegistroDTO>> findRegByUserByMes(@RequestParam(name="mes") String mes,@RequestParam(name="ano") String ano,@RequestParam(name="email") String email ) {
+		
+		List<RegistroDTO> obj = regService.buscaRegistrosData(mes,ano,email);
+		return ResponseEntity.ok().body(obj);
+		
+	}
+	
+	@GetMapping(value="/instanteServidor")
+	public ResponseEntity<HoraServidorDTO> findInstanteServidor() {
+		
+		HoraServidorDTO atual = new HoraServidorDTO();
+		return ResponseEntity.ok().body(atual);
 		
 	}
 	
@@ -66,7 +92,7 @@ public class RegistroResource {
 	@PostMapping()
 	public ResponseEntity<Void> insert(@Valid @RequestBody RegistroNewDTO objDTO){
 		Registro obj = regService.fromDTO(objDTO);
-		obj = regService.insert(obj);
+		obj = regService.verificaConsistenciaRegistro	(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}

@@ -10,7 +10,8 @@ public class FuncionarioDTO implements Serializable{
 	private String id;
 	private String nome;
 	private String email;
-	
+	private String pis;
+	private String aprovadorEmail;
 	public FuncionarioDTO(){}
 	
 	
@@ -28,6 +29,8 @@ public class FuncionarioDTO implements Serializable{
 		this.id = obj.getId();
 		this.nome = obj.getNome();
 		this.email = obj.getEmail();
+		this.pis = obj.getPis();
+		this.aprovadorEmail= obj.getAprovadorEmail();
 	}
 
 	public String getId() {
@@ -53,6 +56,30 @@ public class FuncionarioDTO implements Serializable{
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+	public String getPis() {
+		return pis;
+	}
+
+
+
+	public void setPis(String pis) {
+		this.pis = pis;
+	}
+
+
+
+	public String getAprovadorEmail() {
+		return aprovadorEmail;
+	}
+
+
+
+	public void setAprovadorEmail(String aprovadorEmail) {
+		this.aprovadorEmail = aprovadorEmail;
+	}
+
+
 
 	@Override
 	public int hashCode() {
